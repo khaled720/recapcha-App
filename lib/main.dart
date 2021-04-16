@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   RecaptchaV2Controller recaptchaV2Controller = RecaptchaV2Controller();
-
+String token=""; 
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -92,52 +92,54 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Container(
-          height: 200,
-          child: RecaptchaV2(
+      body: Center(
+    
+        child: recaptchaV2Controller.visible?
+        RecaptchaV2(
 
-            apiKey: "6Lc3AqkaAAAAAHY-9lm1KZwCmuQvMWbCdIk5tSZ1", // for enabling the reCaptcha
-            apiSecret: "6Lc3AqkaAAAAAPLDvCYxHGC_wrMwO84PDVz0ErAF", // for verifying the responded token
-            controller: recaptchaV2Controller,
-            onVerifiedError: (err){
-              print("%%%%%%%%%%%%%%%%%>");
-              print(err);
-              Toast.show("Capcha Error !!", context);
+             apiKey: "6LdyO6oaAAAAANlrysO6wlAgVmzwMnrHywmjfwqc", // for enabling the reCaptcha
+          apiSecret: "6LdyO6oaAAAAAOFh4HoDwM3-3BLsiiwKEe6LAl_M", // for verifying the responded token
+          controller: recaptchaV2Controller,
+onToken: (txt){},
+          
+          onVerifiedError: (err){
 
-            },
-            onVerifiedSuccessfully: (success) {
-              setState(() {
-                if (success) {
-                  print("##############################################################");
-                  Toast.show("Capcha Success", context);
-                  // You've been verified successfully.
-                } else {
-                  print("************************************************************");
-                  Toast.show("Failed to verify", context);
-                  // "Failed to verify.
-                }
-              });
-            },
-          ),
-        ),
+            print("%%%%%%%%%%%%%%%%%>");
+            print(err);
+            Toast.show("Capcha Error !!", context);
+
+          },
+          
+          onVerifiedSuccessfully: (success) {
+            setState(() {
+              if (success) {
+                print("##############################################################");
+                Toast.show("Capcha Success", context);
+
+            /*  token is saved in responseToken variable you can send it now to backend */
+              
+              print("Response Token: "+recaptchaV2Controller.responseToken.toString());
+                // You've been verified successfully.
+                // 
+             setState(() {
+                 token=recaptchaV2Controller.responseToken.toString();
+              
+             });
+              } else {
+                print("************************************************************");
+                Toast.show("Failed to verify", context);
+                // "Failed to verify.
+              }
+            });
+          },
+        )
+   
+   :Padding(
+     padding: const EdgeInsets.all(10.0),
+     child: Text("Your Token is : "+token),
+   )
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed:(){
-          _incrementCounter();
-
-          recaptchaV2Controller.visible?
-recaptchaV2Controller.hide()
-:          recaptchaV2Controller.show();
-
-
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-
+   
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
