@@ -67,7 +67,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "04048c55205ca5b809b211da4813f6c8412bf64f"
+      resolved-ref: "6b3879239dc2252f480deb449e180c7f806f443d"
       url: "https://github.com/khaled720/flutter_recaptcha_v2.git"
     source: git
     version: "0.1.0"
